@@ -1,0 +1,52 @@
+sample_csv: "config/samples_NovaSeqX_poolX8.csv" #path of the csv file with the sample names and the relatedness
+results_folder: "/home/comparazione_kit/analisi_per_articolo/Twist_insert_size_bins_NovaSeqX_poolX8" #full path of the result folder that will be generated
+reference_fasta: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.fasta" #full path of the fasta reference genome file
+reference_fasta_intervals: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.interval_list"
+reference_dict: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.dict"
+
+fastqc_threads: 5 #numeber of per sample threads used for fastqc
+fastp_threads: 10 #numeber of per sample threads used for trimming
+bwa_threads: 15 #number of threads used for mapping
+samtools_threads: 5 #number of threads used for samtools sorting
+bgzip_threads: 5
+
+insert_range_start: 1
+insert_range_end: 1000
+insert_bin_legth: 50
+million_fragment_downsampling: 30000000
+
+coverage_downsampling_levels:
+  60X: 60
+  80X: 80
+
+target_regions:
+  design: 
+    # bed: "/home/db/hg38_bwa2/kit/AB_ANALITICA/Panel_V_CoreExomePanel.hg38.p12.target.v3.sorted.subset.plus.chrM.bed"
+    # intervals: "/home/db/hg38_bwa2/kit/AB_ANALITICA/Panel_V_CoreExomePanel.hg38.p12.target.v3.sorted.subset.plus.chrM.bed.intervals"
+    bed: "/home/db/hg38_bwa2/kit/Twist/v2.01_conSpike/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated_Gene.sorted.bed"
+    intervals: "/home/db/hg38_bwa2/kit/Twist/v2.01_conSpike/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated_Gene.sorted.noAlt.intervals"
+  # refseq: 
+  #   bed: "/home/db/hg38_bwa2/RefSeq_2022/RefSeq_110_NCBI_20220412_VarSeq_hg38_CDS_one_transcript_per_gene.sorted.merged.bed"
+  #   intervals: "/home/db/hg38_bwa2/RefSeq_2022/RefSeq_110_NCBI_20220412_VarSeq_hg38_CDS_one_transcript_per_gene.sorted.merged.renamed.noAlt.intervals"
+  # refseq_slop20: 
+  #   bed: "/home/db/hg38_bwa2/RefSeq_2022/RefSeq_110_NCBI_20220412_VarSeq_hg38_CDS_SLOP20_one_transcript_per_gene.sorted.merged.bed"
+  #   intervals: "/home/db/hg38_bwa2/RefSeq_2022/RefSeq_110_NCBI_20220412_VarSeq_hg38_CDS_SLOP20_one_transcript_per_gene.sorted.merged.noAlt.interval"
+
+mills_vcf: "/home/db/hg38_bwa2/Mills_and_1000G_gold_standard.indels.hg38.vcf"
+dbsnp_vcf: "/home/db/hg38_bwa2/resources_broad_hg38_v0_Homo_sapiens_assembly38.dbsnp138.vcf"
+hapmap_vcf: "/home/db/hg38_bwa2/hapmap_3.3.hg38.vcf"
+omni_vcf: "/home/db/hg38_bwa2/1000G_omni2.5.hg38.vcf"
+phase1_vcf: "/home/db/hg38_bwa2/1000G_phase1.snps.high_confidence.hg38.vcf"
+
+
+path_fastp: "/home/tools/fastp/fastp"
+path_bwa: "/home/tools/bwa-mem2-2.2.1_x64-linux/bwa-mem2"
+path_samtools: "/home/tools/samtools-1.19.2/samtools"
+path_picard: "/home/tools/picard.jar"
+path_bamutil: "/home/tools/bamUtil/bin/bam"
+path_bedtools: "/home/tools/bedtools"
+path_java1.8: "/home/lucab/miniconda3/envs/java_1.8/bin/java -Duser.country=EN -Duser.language=us -Xmx6G"
+path_gatk3.8: "/home/tools/GenomeAnalysisTK-3.8-1-0/GenomeAnalysisTK.jar"
+path_bcftools: "/home/tools/bcftools-1.19/bcftools"
+rtg_path: "/home/tools/rtg-tools-3.12.1/rtg"
+sambamba: "/home/tools/sambamba-1.0.1"
