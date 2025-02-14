@@ -244,4 +244,3 @@ include: "rules/downsampling/downsampling_1_percent.smk",
 include: "rules/mapping/mapping_1_percent.smk",
 include: "rules/mapping/markduplicates_1_percent.smk",
 include: "rules/stats/create_statistics_1_percent.smk"
-
