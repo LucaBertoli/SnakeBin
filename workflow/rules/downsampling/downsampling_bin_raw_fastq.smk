@@ -2,6 +2,7 @@
 import gzip
 import os
 import subprocess
+import shutil
 
 
 rule downsampling_raw_bam_per_bin:
@@ -30,8 +31,8 @@ rule downsampling_raw_bam_per_bin:
         print(f"target: {target_cov}")
         if real_coverage == 0 or real_coverage < target_cov - five_perc or target_cov + five_perc >= real_coverage >= target_cov - five_perc:
             # Crea link simbolici se la copertura reale è sufficientemente vicina
-            os.symlink(os.path.abspath(input.split_bam), output.downsampled_bam)
-            os.symlink(os.path.abspath(input.split_bai), output.downsampled_bai)
+            shutil.copyfile(input.split_bam, output.downsampled_bam)
+            shutil.copyfile(input.split_bai, output.downsampled_bai)
             return
         ratio = round(target_cov / real_coverage, 3)
         print(f"ratio: {ratio}")
