@@ -2,9 +2,9 @@
 
 rule baserecalibrator_downsampled_fastq:
     input:
-        mark_dup_bam=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.bam",
+        mark_dup_bam=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.bam",
     output:
-        recal_table=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/recal_data.table",
+        recal_table=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/recal_data.table",
     shell: 
         """
         gatk BaseRecalibrator \\
@@ -17,10 +17,10 @@ rule baserecalibrator_downsampled_fastq:
 
 rule applyBQSR_downsampled_fastq:
     input:
-        recal_table=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/recal_data.table",
-        mark_dup_bam=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.bam",
+        recal_table=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/recal_data.table",
+        mark_dup_bam=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.bam",
     output:
-        recal_bam=temp(config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.bam")
+        recal_bam=temp(config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.bam")
     shell:
         """
         gatk ApplyBQSR \\
@@ -35,9 +35,9 @@ rule applyBQSR_downsampled_fastq:
 
 rule samtools_index_recal_downsampled_fastq:
     input:
-        recal_bam=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.bam",
+        recal_bam=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.bam",
     output:
-        recal_bam_bai=temp(config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.bam.bai"),
+        recal_bam_bai=temp(config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.bam.bai"),
     params:
         samtools_threads=config['samtools_threads']
     shell:
