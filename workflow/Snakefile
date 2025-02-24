@@ -43,8 +43,8 @@ print("nr frammenti downsampling sequenziale a campione: ", num_fragments_per_sa
 
 rule all:
     input:
-        # expand(config['results_folder'] + "/{sample}/fastqc/{sample}_{read}.html", sample=samples, read=['R1', 'R2']),
-        # expand(config['results_folder'] + "/{sample}/fastqc/{sample}_{read}_fastqc.zip", sample=samples, read=['R1', 'R2']),
+        expand(config['results_folder'] + "/{sample}/fastqc/{sample}_{read}.html", sample=samples, read=['R1', 'R2']),
+        expand(config['results_folder'] + "/{sample}/fastqc/{sample}_{read}_fastqc.zip", sample=samples, read=['R1', 'R2']),
         # ##Merged fastqs (same coverage)
         # ##
         # expand("%s/merged_raw_fastq/merged.R{num}.fastq.gz" %config['results_folder'], num=[1,2]),
@@ -198,7 +198,7 @@ rule all:
         #        zip, bin_start=l_bin_start, bin_end=l_bin_end),
         # config['results_folder']+"/merged_downsampled_1_percent_sequencial/statistics_ds.tsv",
 
-# # include: "rules/fastqc/fastqc_wrapper.smk",
+include: "rules/fastqc/fastqc_wrapper.smk",
 # # Merged fastqs (same coverage)
 # include: "rules/merging/merge_raw_fastq.smk",
 # include: "rules/trimming/fastp_merged_raw_fastq.smk",
