@@ -1,23 +1,23 @@
-sample_csv: "config/samples_NovaSeqX_poolX7.csv" #path of the csv file with the sample names and the relatedness
-results_folder: "/home/comparazione_kit/analisi_per_articolo/Twist_insert_size_bins_NovaSeqX_poolX7_remake" #full path of the result folder that will be generated
+sample_csv: "config/samples_NovaSeq6000_pool95.csv" #path of the csv file with the sample names and the relatedness
+results_folder: "/home/comparazione_kit/analisi_per_articolo/Twist_insert_size_bins_NovaSeq6000_pool95" #full path of the result folder that will be generated
 reference_fasta: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.fasta" #full path of the fasta reference genome file
 reference_fasta_intervals: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.interval_list"
 reference_dict: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.dict"
 
 fastqc_threads: 5 #numeber of per sample threads used for fastqc
 fastp_threads: 10 #numeber of per sample threads used for trimming
-bwa_threads: 15 #number of threads used for mapping
+bwa_threads: 10 #number of threads used for mapping
+super_bwa_threads: 30 #number of threads used for mapping
 samtools_threads: 5 #number of threads used for samtools sorting
 bgzip_threads: 5
 
 insert_range_start: 1
 insert_range_end: 1000
 insert_bin_legth: 50
-# million_fragment_downsampling: 30000000
 
 million_fragment_downsampling:
   300k: 300000  #1% di frammenti sequenziali dei 30M
-  # 30M: 30000000
+  30M: 30000000
 
 coverage_downsampling_levels:
   60X: 60

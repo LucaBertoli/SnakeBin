@@ -7,9 +7,9 @@ rule bwa_mem2_mem_merged_fastq:
     output:
         start_sorted_bam=temp(config['results_folder']+"/merged_raw_fastq/start_sorted.bam"), #bwa-mapped samples
     threads: 
-        max(config['bwa_threads'], config['samtools_threads'])
+        max(config['super_bwa_threads'], config['samtools_threads'])
     params:
-        bwa_threads=config['bwa_threads'],
+        bwa_threads=config['super_bwa_threads'],
         samtools_threads=config['samtools_threads'],
     shell:
         """
