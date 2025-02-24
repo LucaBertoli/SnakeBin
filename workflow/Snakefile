@@ -171,8 +171,8 @@ rule all:
         expand(expand("%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/unif_of_coverage.txt" %config['results_folder'],
                zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
         expand([config['results_folder']+"/merged_downsampled_bam/{million_levels}/statistics_ds.tsv"], million_levels=million_fragment_downsampling),
-        expand("%s/merged_downsampled_bam/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.g.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
-        expand("%s/merged_downsampled_bam/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.variants.selected.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end)
+        # expand("%s/merged_downsampled_bam/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.g.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
+        # expand("%s/merged_downsampled_bam/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.variants.selected.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
         ### ds_1_percent
         ####
         expand(
