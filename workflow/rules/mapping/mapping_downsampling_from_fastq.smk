@@ -5,7 +5,10 @@ import os
 
 def get_fq1_CGF_ID(wildcards):
     # code that returns a list of fastq files for read 1 based on *wildcards.sample* e.g.
-    return sorted(glob.glob(config['results_folder'] +'/'+ wildcards.sample + '/*R1*fastq.gz'))[0].split('/')[-1:][0].split('_')[0]
+    fq1_files = sorted(glob.glob(config['results_folder'] +'/'+ wildcards.sample + '/*R1*fastq.gz'))
+    if not fq1_files:
+        raise ValueError(f"No fastq files found for sample {wildcards.sample}")
+    return fq1_files[0].split('/')[-1:][0].split('_')[0]
 
 def get_time(wildcards):
     now = datetime.now()
@@ -24,8 +27,6 @@ rule bwa_mem2_mem:
         bwa_threads=config['bwa_threads'],
         samtools_threads=config['samtools_threads'],
         CGF_ID_R1=get_fq1_CGF_ID,
-    log:
-        config['results_folder'] + "/{sample}/logs/{sample}.bwa2.log"
     shell:
         """
         {config[path_bwa]} mem \\
@@ -36,7 +37,7 @@ rule bwa_mem2_mem:
         {input.trimmed2} \\
         | {config[path_samtools]} sort \\
         --threads {params.samtools_threads} \\
-        -o {output.start_sorted_bam} 2> {log}
+        -o {output.start_sorted_bam}
         """
 
 rule samtools_index:

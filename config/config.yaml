@@ -1,5 +1,5 @@
-sample_csv: "config/samples_NovaSeq6000_pool95.csv" #path of the csv file with the sample names and the relatedness
-results_folder: "/home/comparazione_kit/analisi_per_articolo/Twist_insert_size_bins_NovaSeq6000_pool95" #full path of the result folder that will be generated
+sample_csv: "config/samples_NovaSeq6000_pool88.csv" #path of the csv file with the sample names and the relatedness
+results_folder: "/home/comparazione_kit/analisi_per_articolo/Twist_insert_size_bins_NovaSeq6000_pool88" #full path of the result folder that will be generated
 reference_fasta: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.fasta" #full path of the fasta reference genome file
 reference_fasta_intervals: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.interval_list"
 reference_dict: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.dict"

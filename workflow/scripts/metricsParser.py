@@ -88,7 +88,7 @@ def get_hs_metrics(file):
                 total = on_bait + near_bait + off_bait
                 print(f"{on_bait/total*100:.2f}\t{near_bait/total*100:.2f}\t{off_bait/total*100:.2f}\t"
                       f"{float(values[pos['AT_DROPOUT']]):.2f}\t{float(values[pos['GC_DROPOUT']]):.2f}\t"
-                      f"{values[pos['FOLD_80_BASE_PENALTY']]}")
+                      f"{float(values[pos['FOLD_80_BASE_PENALTY']]):.2f}" if values[pos['FOLD_80_BASE_PENALTY']] != "?" else f"{values[pos['FOLD_80_BASE_PENALTY']]}")
                 break
 
 def main():

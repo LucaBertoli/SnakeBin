@@ -95,8 +95,8 @@ rule all:
         expand("%s/merged_raw_fastq/split_bam_merged/insert_{bin_start}-{bin_end}/unif_of_coverage.txt" %config['results_folder'],
                zip, bin_start=l_bin_start, bin_end=l_bin_end),
         [config['results_folder']+"/merged_raw_fastq/statistics.tsv"],
-        #expand(expand("%s/merged_raw_fastq/split_bam_merged/{levels}/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.g.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), levels=coverage_downsampling_levels),
-        #expand(expand("%s/merged_raw_fastq/split_bam_merged/{levels}/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.variants.selected.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), levels=coverage_downsampling_levels),
+        # expand(expand("%s/merged_raw_fastq/split_bam_merged/{levels}/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.g.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), levels=coverage_downsampling_levels),
+        # expand(expand("%s/merged_raw_fastq/split_bam_merged/{levels}/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.variants.selected.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), levels=coverage_downsampling_levels),
         ###Single samples (same millions)
         ###
         expand("%s/{sample}/{sample}.trimmed.R{num}.fastq.gz" %config['results_folder'], sample=samples, num=[1,2]),
@@ -199,7 +199,7 @@ rule all:
         config['results_folder']+"/merged_downsampled_1_percent_sequencial/statistics_ds.tsv",
 
 include: "rules/fastqc/fastqc_wrapper.smk",
-# # Merged fastqs (same coverage)
+# Merged fastqs (same coverage)
 include: "rules/merging/merge_raw_fastq.smk",
 include: "rules/trimming/fastp_merged_raw_fastq.smk",
 include: "rules/mapping/mapping_merged_raw_fastq.smk",
@@ -248,7 +248,7 @@ include: "rules/stats/create_statistics_downsampling_from_fastq.smk",
 ## include: "rules/snv_indel_calling/callHC_downsampling_from_fastq.smk",
 ## include: "rules/snv_indel_calling/filterHC_downsampling_from_fastq.smk",
 
-#
+
 # ##Single samples (1 percent sequential)
 include: "rules/fastqc/fastqc_wrapper_1_percent.smk",
 include: "rules/downsampling/downsampling_1_percent.smk",
