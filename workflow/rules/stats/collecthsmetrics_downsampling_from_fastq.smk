@@ -3,7 +3,7 @@ import csv
 import os
 
 def near_distance(wildcards):
-    with open(config['results_folder'] + "/merged_downsampled_bam/insert_" + wildcards.bin_start + "-" + wildcards.bin_end + "/alignment.dedup.recal.clip.output", newline='') as csvfile:
+    with open(config['results_folder'] + "/merged_downsampled_bam/" + wildcards.million_fragment_downsampling + "/insert_" + wildcards.bin_start + "-" + wildcards.bin_end + "/alignment.dedup.recal.clip.output", newline='') as csvfile:
         tsv_reader = csv.reader(csvfile, delimiter='\t')
         is_mean_insert_size_row = False
         for row in tsv_reader:
@@ -16,12 +16,12 @@ def near_distance(wildcards):
 
 rule hsmetrics_downsampling_from_bam:
     input:
-        clipped_bam=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.bam",
-        insert_hist_out=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.output"
+        clipped_bam=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.bam",
+        insert_hist_out=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.output"
     output:
-        output_metrics=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_HsMetrics.txt",
-        output_target=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_PER_TARGET_COVERAGE.txt",
-        output_base=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_PER_BASE_COVERAGE.txt",
+        output_metrics=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_HsMetrics.txt",
+        output_target=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_PER_TARGET_COVERAGE.txt",
+        output_base=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_PER_BASE_COVERAGE.txt",
     params:
         near_distance=near_distance,
         bait_intervals=lambda wildcards: config["target_regions"]["design"]["intervals"],

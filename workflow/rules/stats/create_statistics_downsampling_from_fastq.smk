@@ -2,22 +2,22 @@
 
 rule stats_downsampled_fastqs:
     input:
-        insert_size=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.output",
-        flagstat=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/flagstat.txt",
-        flagstat_recall=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/flagstat_recall.txt",
-        duplicates=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/duplicates.txt",
-        target_stats=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip-callable_DP10-stats.tsv",
-        on_near_off_target=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_HsMetrics.txt",
-        unif_cov_target=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/unif_of_coverage.txt",
+        insert_size=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.output",
+        flagstat=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/flagstat.txt",
+        flagstat_recall=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/flagstat_recall.txt",
+        duplicates=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/duplicates.txt",
+        target_stats=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip-callable_DP10-stats.tsv",
+        on_near_off_target=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_HsMetrics.txt",
+        unif_cov_target=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/unif_of_coverage.txt",
 
     output:
-        insert_size_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/insert_des_size_clip.tsv",
-        flagstat_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/map_clip.tsv",
-        flagstat_recall_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/map_dedup_clip.tsv",
-        duplicates_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/duplicates_clip.tsv",
-        target_stats_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/Statistics_clip.tsv",
-        on_near_off_target_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/HsMetrics_clip.tsv",
-        unif_cov_target_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/unif_of_coverage.tsv",
+        insert_size_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/insert_des_size_clip.tsv",
+        flagstat_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/map_clip.tsv",
+        flagstat_recall_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/map_dedup_clip.tsv",
+        duplicates_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/duplicates_clip.tsv",
+        target_stats_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/Statistics_clip.tsv",
+        on_near_off_target_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/HsMetrics_clip.tsv",
+        unif_cov_target_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/unif_of_coverage.tsv",
     shell:
         """
         python3 workflow/scripts/metricsParser.py {input.insert_size} > {output.insert_size_tsv}
@@ -32,15 +32,15 @@ rule stats_downsampled_fastqs:
 
 rule aggregate_stats_downsampled_fastqs:
     input:
-        insert_size_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/insert_des_size_clip.tsv",
-        flagstat_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/map_clip.tsv",
-        flagstat_recall_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/map_dedup_clip.tsv",
-        duplicates_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/duplicates_clip.tsv",
-        target_stats_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/Statistics_clip.tsv",
-        on_near_off_target_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/HsMetrics_clip.tsv",
-        unif_cov_target_tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats/unif_of_coverage.tsv",
+        insert_size_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/insert_des_size_clip.tsv",
+        flagstat_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/map_clip.tsv",
+        flagstat_recall_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/map_dedup_clip.tsv",
+        duplicates_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/duplicates_clip.tsv",
+        target_stats_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/Statistics_clip.tsv",
+        on_near_off_target_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/HsMetrics_clip.tsv",
+        unif_cov_target_tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats/unif_of_coverage.tsv",
     output:
-        sample_stats=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats.tsv",
+        sample_stats=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/stats.tsv",
     shell:
         """
         echo -e "{wildcards.bin_start}-{wildcards.bin_end}\\t$(paste -d'\\t' \\
@@ -56,9 +56,9 @@ rule aggregate_stats_downsampled_fastqs:
 
 rule merge_stats_downsampled_fastqs:
     input:
-        sample_stats=expand(config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/stats.tsv", zip , bin_start=l_bin_start, bin_end=l_bin_end),
+        sample_stats=expand(config['results_folder']+"/merged_downsampled_bam/{{million_fragment_downsampling}}/insert_{bin_start}-{bin_end}/stats.tsv", zip , bin_start=l_bin_start, bin_end=l_bin_end),
     output:
-        aggregate_stats=config['results_folder']+"/merged_downsampled_bam/statistics_ds.tsv"
+        aggregate_stats=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/statistics_ds.tsv"
     shell:
         """
         cat {input.sample_stats} >> {output.aggregate_stats}

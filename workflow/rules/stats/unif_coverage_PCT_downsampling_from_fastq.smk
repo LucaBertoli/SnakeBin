@@ -3,10 +3,10 @@
 
 rule unif_coverage_downsampling_from_fastq:
     input:
-        tsv=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip-callable_DP10-stats.tsv",
-        per_base_cov=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_PER_BASE_COVERAGE.txt"
+        tsv=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip-callable_DP10-stats.tsv",
+        per_base_cov=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_PER_BASE_COVERAGE.txt"
     output:
-        unif_cov=config['results_folder']+"/merged_downsampled_bam/insert_{bin_start}-{bin_end}/unif_of_coverage.txt"
+        unif_cov=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/unif_of_coverage.txt"
     params:
         targets=lambda wildcards: config["target_regions"]["design"]["bed"]
     shell:
