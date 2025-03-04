@@ -85,10 +85,11 @@ def get_hs_metrics(file):
                 on_bait = float(values[pos['ON_BAIT_BASES']])
                 near_bait = float(values[pos['NEAR_BAIT_BASES']])
                 off_bait = float(values[pos['OFF_BAIT_BASES']])
+                fold80 = f"{float(values[pos['FOLD_80_BASE_PENALTY']]):.2f}" if values[pos['FOLD_80_BASE_PENALTY']] != "?" else f"{values[pos['FOLD_80_BASE_PENALTY']]}"
                 total = on_bait + near_bait + off_bait
                 print(f"{on_bait/total*100:.2f}\t{near_bait/total*100:.2f}\t{off_bait/total*100:.2f}\t"
                       f"{float(values[pos['AT_DROPOUT']]):.2f}\t{float(values[pos['GC_DROPOUT']]):.2f}\t"
-                      f"{float(values[pos['FOLD_80_BASE_PENALTY']]):.2f}" if values[pos['FOLD_80_BASE_PENALTY']] != "?" else f"{values[pos['FOLD_80_BASE_PENALTY']]}")
+                      f"{fold80}")
                 break
 
 def main():
