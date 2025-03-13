@@ -3,22 +3,27 @@
 rule stats_downsampled_ds_1_perc:
     input:
         duplicates=config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/duplicates.txt",
+        flagstat=config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/flagstat.txt",
     output:
         duplicates_tsv=config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/stats/duplicates_clip.tsv",
+        flagstat_tsv=config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/stats/flagstat_tsv",
     shell:
         """
         python3 workflow/scripts/metricsParser.py {input.duplicates} > {output.duplicates_tsv}
+        python3 workflow/scripts/metricParser.py {input.flagstat} > {output.flagstat_tsv}
         """
 
 
 rule aggregate_stats_ds_1_perc:
     input:
         duplicates_tsv=config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/stats/duplicates_clip.tsv",
+        flagstat_tsv=config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/stats/flagstat.tsv",
     output:
         sample_stats=config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/stats.tsv",
     shell:
         """
         echo -e "{wildcards.bin_start}-{wildcards.bin_end}\\t$(paste -d'\\t' \\
+            {input.flagstat_tsv} \\
             {input.duplicates_tsv})" \\
             > {output.sample_stats}
         """

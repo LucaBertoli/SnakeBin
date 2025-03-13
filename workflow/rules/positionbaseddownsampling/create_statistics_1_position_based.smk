@@ -13,28 +13,23 @@ rule stats_downsampled_1_position_based_dup:
 rule stats_downsampled_1_position_based_flagstat:
     input:
         flagstat=config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/flagstat.txt",
-        flagstat_dedup=config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/flagstat_dedup.txt",
     output:
         flagstat_tsv=config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/stats/flagstat_clip.tsv",
-        flagstat_dedup_tsv=config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/stats/flagstat_dedup_clip.tsv",
     shell:
         """
         python3 workflow/scripts/metricsParser.py {input.flagstat} > {output.flagstat_tsv}
-        python3 workflow/scripts/metricsParser.py {input.flagstat_dedup} > {output.flagstat_dedup_tsv}
         """
 
 rule aggregate_stats_1_position_based:
     input:
         duplicates_tsv=config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/stats/duplicates_clip.tsv",
         flagstat=config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/stats/flagstat_clip.tsv",
-        flagstat_dedup=config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/stats/flagstat_dedup_clip.tsv",
     output:
         sample_stats=config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/stats.tsv",
     shell:
         """
         echo -e "{wildcards.bin_start}-{wildcards.bin_end}\\t$(paste -d'\\t' \\
             {input.flagstat} \\
-            {input.flagstat_dedup} \\
             {input.duplicates_tsv})" \\
             > {output.sample_stats}
         """

@@ -7,7 +7,7 @@ reference_dict: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.dict"
 fastqc_threads: 5 #numeber of per sample threads used for fastqc
 fastp_threads: 10 #numeber of per sample threads used for trimming
 bwa_threads: 10 #number of threads used for mapping
-super_bwa_threads: 30 #number of threads used for mapping
+super_bwa_threads: 90 #number of threads used for mapping
 samtools_threads: 5 #number of threads used for samtools sorting
 bgzip_threads: 5
 
@@ -17,7 +17,7 @@ insert_bin_legth: 50
 
 million_fragment_downsampling:
   300k: 300000  #1% di frammenti sequenziali dei 30M
-  # 30M: 30000000
+  30M: 30000000
 
 coverage_downsampling_levels:
   60X: 60
