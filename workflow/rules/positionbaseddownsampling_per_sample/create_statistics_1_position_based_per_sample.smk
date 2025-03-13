@@ -6,7 +6,7 @@ rule stats_downsampled_ds_1_perc:
         flagstat=config['results_folder']+"/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/flagstat.txt",
     output:
         duplicates_tsv=config['results_folder']+"/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/stats/duplicates_clip.tsv",
-        flagstat_tsv=config['results_folder']+"/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/stats/flagstat_tsv",
+        flagstat_tsv=config['results_folder']+"/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/stats/flagstat.tsv",
     shell:
         """
         python3 workflow/scripts/metricsParser.py {input.duplicates} > {output.duplicates_tsv}
