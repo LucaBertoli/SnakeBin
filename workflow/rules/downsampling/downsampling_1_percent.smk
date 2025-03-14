@@ -17,7 +17,7 @@ rule extract_reads_from_fastq_ds_1_perc:
         """
         set -euxo pipefail
         mkdir -p $(dirname {output.downsampled_fastq_R1})
-        max_lines=$(python3 workflow/scripts/metricsParser.py {input.html_R1} | awk -F "\\t" '{{printf "%.0f\\n", ($1/100)*4}}')
+        max_lines=$(python3 workflow/scripts/metricsParser.py {input.html_R1} | awk -F "\\t" '{{printf "%.0f\\n", ($1/100)}}' | awk -F "\\t" '{{print ($1*4)}}')
         zcat {input.bam_to_fastq_R1} | awk -v max_lines=$max_lines 'NR <= max_lines' | bgzip -@ {params.bgzip_threads} > {output.downsampled_fastq_R1}
         zcat {input.bam_to_fastq_R2} | awk -v max_lines=$max_lines 'NR <= max_lines' | bgzip -@ {params.bgzip_threads} > {output.downsampled_fastq_R2}
         """
