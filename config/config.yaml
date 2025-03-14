@@ -43,6 +43,7 @@ omni_vcf: "/home/db/hg38_bwa2/1000G_omni2.5.hg38.vcf"
 phase1_vcf: "/home/db/hg38_bwa2/1000G_phase1.snps.high_confidence.hg38.vcf"
 
 
+path_fastqc: "fastqc"
 path_fastp: "/home/tools/fastp/fastp"
 path_bwa: "/home/tools/bwa-mem2-2.2.1_x64-linux/bwa-mem2"
 path_samtools: "/home/tools/samtools-1.19.2/samtools"

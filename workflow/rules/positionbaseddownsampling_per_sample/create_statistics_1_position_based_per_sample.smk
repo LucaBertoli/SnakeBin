@@ -1,6 +1,6 @@
 # Snakefile
 
-rule stats_downsampled_ds_1_perc:
+rule stats_downsampled_ds_1_perc_position_based_per_sample:
     input:
         duplicates=config['results_folder']+"/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/duplicates.txt",
         flagstat=config['results_folder']+"/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/flagstat.txt",
@@ -10,11 +10,11 @@ rule stats_downsampled_ds_1_perc:
     shell:
         """
         python3 workflow/scripts/metricsParser.py {input.duplicates} > {output.duplicates_tsv}
-        python3 workflow/scripts/metricParser.py {input.flagstat} > {output.flagstat_tsv}
+        python3 workflow/scripts/metricsParser.py {input.flagstat} > {output.flagstat_tsv}
         """
 
 
-rule aggregate_stats_ds_1_perc:
+rule aggregate_stats_ds_1_perc_position_based_per_sample:
     input:
         duplicates_tsv=config['results_folder']+"/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/stats/duplicates_clip.tsv",
         flagstat_tsv=config['results_folder']+"/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/stats/flagstat.tsv",
@@ -28,7 +28,7 @@ rule aggregate_stats_ds_1_perc:
             > {output.sample_stats}
         """
 
-rule merge_stats_ds_1_perc:
+rule merge_stats_ds_1_perc_position_based_per_sample:
     input:
         sample_stats=expand(config['results_folder']+"/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/stats.tsv", zip , bin_start=l_bin_start, bin_end=l_bin_end),
     output:

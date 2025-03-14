@@ -6,11 +6,11 @@ rule stats_downsampled_ds_1_perc:
         flagstat=config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/flagstat.txt",
     output:
         duplicates_tsv=config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/stats/duplicates_clip.tsv",
-        flagstat_tsv=config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/stats/flagstat_tsv",
+        flagstat_tsv=config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/stats/flagstat.tsv",
     shell:
         """
         python3 workflow/scripts/metricsParser.py {input.duplicates} > {output.duplicates_tsv}
-        python3 workflow/scripts/metricParser.py {input.flagstat} > {output.flagstat_tsv}
+        python3 workflow/scripts/metricsParser.py {input.flagstat} > {output.flagstat_tsv}
         """
 
 
