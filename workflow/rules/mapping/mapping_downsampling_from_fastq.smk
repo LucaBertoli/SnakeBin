@@ -20,7 +20,7 @@ rule bwa_mem2_mem:
         trimmed1=config['results_folder']+"/{sample}/{sample}.trimmed.R1.fastq.gz", #trimmed R1
         trimmed2=config['results_folder']+"/{sample}/{sample}.trimmed.R2.fastq.gz" #trimmed R2     
     output:
-        start_sorted_bam=temp(config['results_folder']+"/{sample}/{sample}_start_sorted.bam"), #bwa-mapped samples
+        start_sorted_bam=config['results_folder']+"/{sample}/{sample}_start_sorted.bam", #bwa-mapped samples
     threads: 
         max(config['bwa_threads'], config['samtools_threads'])
     params:
@@ -44,7 +44,7 @@ rule samtools_index:
     input:
         start_sorted_bam=config['results_folder']+"/{sample}/{sample}_start_sorted.bam"
     output:
-        start_sorted_bam_bai=temp(config['results_folder']+"/{sample}/{sample}_start_sorted.bam.bai"),
+        start_sorted_bam_bai=config['results_folder']+"/{sample}/{sample}_start_sorted.bam.bai",
     threads: 
         config['samtools_threads']
     params:
