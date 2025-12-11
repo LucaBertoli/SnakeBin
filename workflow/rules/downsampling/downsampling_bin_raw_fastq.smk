@@ -26,10 +26,10 @@ rule downsampling_raw_bam_per_bin:
             return
         target_cov = int(params.levels)
         print(target_cov)
-        five_perc = target_cov * 0.05 # 5% di target_cov, equivale a 3X su 60X
+        perc = target_cov * 0.001 # 0.1% di target_cov, equivale a 3X su 60X
         print(f"real: {real_coverage}")
         print(f"target: {target_cov}")
-        if real_coverage == 0 or real_coverage < target_cov - five_perc or target_cov + five_perc >= real_coverage >= target_cov - five_perc:
+        if real_coverage == 0 or real_coverage < target_cov - perc or target_cov + perc >= real_coverage >= target_cov - perc:
             # Crea link simbolici se la copertura reale è sufficientemente vicina
             shutil.copyfile(input.split_bam, output.downsampled_bam)
             shutil.copyfile(input.split_bai, output.downsampled_bai)

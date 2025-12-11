@@ -1,8 +1,8 @@
 sample_csv: "config/samples_NovaSeq6000_pool87.csv" #path of the csv file with the sample names and the relatedness
 results_folder: "/home/comparazione_kit/analisi_per_articolo/Twist_insert_size_bins_NovaSeq6000_pool87" #full path of the result folder that will be generated
-reference_fasta: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.fasta" #full path of the fasta reference genome file
-reference_fasta_intervals: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.interval_list"
-reference_dict: "/home/db/hg38_bwa2/Homo_sapiens_assembly38_noalt.dict"
+reference_fasta: "/home/db/hg38_bwa2/hg38_chr1-22-XYM/Homo_sapiens_assembly38_noalt.fasta" #full path of the fasta reference genome file
+reference_fasta_intervals: "/home/db/hg38_bwa2/hg38_chr1-22-XYM/Homo_sapiens_assembly38_noalt.interval_list"
+reference_dict: "/home/db/hg38_bwa2/hg38_chr1-22-XYM/Homo_sapiens_assembly38_noalt.dict"
 
 fastqc_threads: 5 #numeber of per sample threads used for fastqc
 fastp_threads: 10 #numeber of per sample threads used for trimming
@@ -36,6 +36,9 @@ target_regions:
   #   bed: "/home/db/hg38_bwa2/RefSeq_2022/RefSeq_110_NCBI_20220412_VarSeq_hg38_CDS_SLOP20_one_transcript_per_gene.sorted.merged.bed"
   #   intervals: "/home/db/hg38_bwa2/RefSeq_2022/RefSeq_110_NCBI_20220412_VarSeq_hg38_CDS_SLOP20_one_transcript_per_gene.sorted.merged.noAlt.interval"
 
+low_mappability_regions:
+  bed: "/home/db/hg38_bwa2/genome_stratification/v3.5/GRCh38@all/Mappability/GRCh38_lowmappabilityall.bed.gz"
+
 mills_vcf: "/home/db/hg38_bwa2/Mills_and_1000G_gold_standard.indels.hg38.vcf"
 dbsnp_vcf: "/home/db/hg38_bwa2/resources_broad_hg38_v0_Homo_sapiens_assembly38.dbsnp138.vcf"
 hapmap_vcf: "/home/db/hg38_bwa2/hapmap_3.3.hg38.vcf"
@@ -43,6 +46,7 @@ omni_vcf: "/home/db/hg38_bwa2/1000G_omni2.5.hg38.vcf"
 phase1_vcf: "/home/db/hg38_bwa2/1000G_phase1.snps.high_confidence.hg38.vcf"
 
 
+path_fastqc: "fastqc"
 path_fastp: "/home/tools/fastp/fastp"
 path_bwa: "/home/tools/bwa-mem2-2.2.1_x64-linux/bwa-mem2"
 path_samtools: "/home/tools/samtools-1.19.2/samtools"

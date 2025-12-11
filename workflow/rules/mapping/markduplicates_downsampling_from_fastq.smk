@@ -8,7 +8,7 @@ rule markduplicates_bam_from_merged_fastq:
         metric_dup=config['results_folder']+"/merged_downsampled_bam/{million_fragment_downsampling}/insert_{bin_start}-{bin_end}/duplicates.txt",
     shell:
         """
-        java -Xmx8G -jar {config[path_picard]} MarkDuplicates \\
+        java -Xmx8G -Djava.io.tmpdir=/home/temp -jar {config[path_picard]} MarkDuplicates \\
         I={input.start_sorted_bam} \\
         O={output.mark_dup_bam} \\
         M={output.metric_dup} \\
