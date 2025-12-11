@@ -1,28 +1,50 @@
+### Snakemage Configuration File
+### Modify:
+# tools executable file's path
+# reference genome and databases paths
+# threads used for the computations
+# insert size binning scheme
+# downsampling levels
+# target region files
+
+
+### Input/Output paths.
+#csv file should be formatted as a list of sample names.
+#results folder should contain one folder per sample with the fastq files inside. In this folder, the workflow results will be stored.
+
 sample_csv: "config/samples_NovaSeq6000_pool87.csv" #path of the csv file with the sample names and the relatedness
 results_folder: "/home/comparazione_kit/analisi_per_articolo/Twist_insert_size_bins_NovaSeq6000_pool87" #full path of the result folder that will be generated
-reference_fasta: "/home/db/hg38_bwa2/hg38_chr1-22-XYM/Homo_sapiens_assembly38_noalt.fasta" #full path of the fasta reference genome file
-reference_fasta_intervals: "/home/db/hg38_bwa2/hg38_chr1-22-XYM/Homo_sapiens_assembly38_noalt.interval_list"
-reference_dict: "/home/db/hg38_bwa2/hg38_chr1-22-XYM/Homo_sapiens_assembly38_noalt.dict"
+
+### Threads configuration
+# threads allocated to each rule which uses multithreading tools
 
 fastqc_threads: 5 #numeber of per sample threads used for fastqc
 fastp_threads: 10 #numeber of per sample threads used for trimming
 bwa_threads: 10 #number of threads used for mapping
 super_bwa_threads: 30 #number of threads used for mapping
 samtools_threads: 5 #number of threads used for samtools sorting
-bgzip_threads: 5
+bgzip_threads: 5 #number of threads used for bgzip compression
 
+### Insert size binning scheme
+# specify the start, end and step of the range of insert sizes to be binned
 insert_range_start: 1
 insert_range_end: 1000
 insert_bin_legth: 50
 
+### Downsampling levels for fragment-based noemalized analysis
+# specify a list of downsampling levels as number of sequenced fragments (1 fragment = 2 paired-end reads)
 million_fragment_downsampling:
   300k: 300000  #1% di frammenti sequenziali dei 30M
   30M: 30000000
 
+### Downsampling levels for coverage-based normalized analysis
+# specify a list of downsampling levels as average depth of coverage
 coverage_downsampling_levels:
   60X: 60
   80X: 80
 
+### Target region files to be used for metrics calculation
+# specify the bed and picard intervals files for each target region set to be used
 target_regions:
   design: 
     # bed: "/home/db/hg38_bwa2/kit/AB_ANALITICA/Panel_V_CoreExomePanel.hg38.p12.target.v3.sorted.subset.plus.chrM.bed"
@@ -36,16 +58,21 @@ target_regions:
   #   bed: "/home/db/hg38_bwa2/RefSeq_2022/RefSeq_110_NCBI_20220412_VarSeq_hg38_CDS_SLOP20_one_transcript_per_gene.sorted.merged.bed"
   #   intervals: "/home/db/hg38_bwa2/RefSeq_2022/RefSeq_110_NCBI_20220412_VarSeq_hg38_CDS_SLOP20_one_transcript_per_gene.sorted.merged.noAlt.interval"
 
+### Low mappability regions file used for the mapping quality metrics calculation
 low_mappability_regions:
   bed: "/home/db/hg38_bwa2/genome_stratification/v3.5/GRCh38@all/Mappability/GRCh38_lowmappabilityall.bed.gz"
 
+### Reference genome and databases paths
+reference_fasta: "/home/db/hg38_bwa2/hg38_chr1-22-XYM/Homo_sapiens_assembly38_noalt.fasta" #full path of the fasta reference genome file
+reference_fasta_intervals: "/home/db/hg38_bwa2/hg38_chr1-22-XYM/Homo_sapiens_assembly38_noalt.interval_list"
+reference_dict: "/home/db/hg38_bwa2/hg38_chr1-22-XYM/Homo_sapiens_assembly38_noalt.dict"
 mills_vcf: "/home/db/hg38_bwa2/Mills_and_1000G_gold_standard.indels.hg38.vcf"
 dbsnp_vcf: "/home/db/hg38_bwa2/resources_broad_hg38_v0_Homo_sapiens_assembly38.dbsnp138.vcf"
 hapmap_vcf: "/home/db/hg38_bwa2/hapmap_3.3.hg38.vcf"
 omni_vcf: "/home/db/hg38_bwa2/1000G_omni2.5.hg38.vcf"
 phase1_vcf: "/home/db/hg38_bwa2/1000G_phase1.snps.high_confidence.hg38.vcf"
 
-
+### Path of the tools used by the workflow
 path_fastqc: "fastqc"
 path_fastp: "/home/tools/fastp/fastp"
 path_bwa: "/home/tools/bwa-mem2-2.2.1_x64-linux/bwa-mem2"
