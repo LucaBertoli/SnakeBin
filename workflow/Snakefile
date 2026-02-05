@@ -107,130 +107,130 @@ rule all:
         expand("%s/merged_raw_fastq/split_bam_merged/insert_{bin_start}-{bin_end}/unif_of_coverage.txt" %config['results_folder'],
                zip, bin_start=l_bin_start, bin_end=l_bin_end),
         [config['results_folder']+"/merged_raw_fastq/statistics.tsv"],
-        # # expand(expand("%s/merged_raw_fastq/split_bam_merged/{levels}/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.g.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), levels=coverage_downsampling_levels),
-        # # expand(expand("%s/merged_raw_fastq/split_bam_merged/{levels}/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.variants.selected.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), levels=coverage_downsampling_levels),
-       #  ###Single samples (same millions)
-       #  ###
-       #  expand("%s/{sample}/{sample}.trimmed.R{num}.fastq.gz" %config['results_folder'], sample=samples, num=[1,2]),
-       #  expand("%s/{sample}/{sample}_start_sorted.bam{index}" %config['results_folder'], sample=samples, index=["",".bai"]),
-       #  expand(
-       #     expand(
-       #         expand(
-       #             "%s/{sample}/split_fastq/bam_to_fastq_{bin_start}-{bin_end}/{sample}_R{num}.fastq.gz" %config['results_folder'],
-       #             zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
-       #         ),
-       #         num=[1,2], allow_missing=True
-       #     ),
-       #     sample=samples, allow_missing=True
-       #  ),
-       #  expand(
-       #      expand(
-       #          expand(
-       #              "%s/{sample}/downsampled_fastq/{million_levels}/fastq_{bin_start}-{bin_end}/{sample}_R{num}.fastq.gz" %config['results_folder'],
-       #              zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
-       #          ),
-       #          num=[1,2], allow_missing=True
-       #      ),
-       #      sample=samples, million_levels=million_fragment_downsampling, allow_missing=True
-       #  ),
-       #  expand(
-       #      expand(
-       #          "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/merged.R{num}.fastq.gz" %config['results_folder'],
-       #          zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
-       #      ),
-       #      num=[1,2], million_levels=million_fragment_downsampling, allow_missing=True
-       #  ),
-       #  expand(
-       #      expand(
-       #          "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/start_sorted.bam{index}" %config['results_folder'],
-       #          zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
-       #      ),
-       #      index=["",".bai"], million_levels=million_fragment_downsampling, allow_missing=True
-       #  ),
-       #  expand(
-       #      expand("%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/flagstat.txt" %config['results_folder'], 
-       #          zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
-       #      ), 
-       #      million_levels=million_fragment_downsampling, allow_missing=True),
-       #  expand(expand(["%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.bam" %config['results_folder'], 
-       #         "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/duplicates.txt" %config['results_folder']],
-       #         zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
-       #  expand(expand(["%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.bam" %config['results_folder'],
-       #         "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.bam.bai" %config['results_folder'],
-       #         "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/recal_data.table" %config['results_folder']],
-       #         zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
-       #  expand(expand(["%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.bam" %config['results_folder'],
-       #         "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.bam.bai" %config['results_folder']],
-       #         zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
-       #  expand(expand(["%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.hist.pdf" %config['results_folder'],
-       #         "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.output" %config['results_folder']],
-       #         zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
-       #  expand(expand("%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/flagstat_recall.txt" %config['results_folder'],
-       #         zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
-       #  expand(expand(["%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/callable_table.txt" %config['results_folder'],
-       #         "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/callable_status.bed" %config['results_folder'],
-       #         "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/callable.bed" %config['results_folder'],
-       #         "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/callable_table_DP10.txt" %config['results_folder'],
-       #         "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/callable_status_DP10.bed" %config['results_folder'],
-       #         "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/callable_DP10.bed" %config['results_folder']],
-       #         zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
-       #  expand(expand(["%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_HsMetrics.txt" %config['results_folder'],
-       #         "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_PER_TARGET_COVERAGE.txt"  %config['results_folder'],
-       #         "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_PER_BASE_COVERAGE.txt" %config['results_folder']],
-       #         zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
-       #  expand(expand("%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip-callable_DP10-stats.tsv" %config['results_folder'],
-       #         zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
-       #  expand(expand("%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/unif_of_coverage.txt" %config['results_folder'],
-       #         zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
-       #  expand([config['results_folder']+"/merged_downsampled_bam/{million_levels}/statistics_ds.tsv"], million_levels=million_fragment_downsampling),
-       #  # # expand("%s/merged_downsampled_bam/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.g.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
-       #  # # expand("%s/merged_downsampled_bam/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.variants.selected.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
-       #  ### ds_1_percent
-       #  ####
-       #  expand(
-       #      expand(
-       #          expand(
-       #              "%s/{sample}/split_fastq/bam_to_fastq_{bin_start}-{bin_end}/fastqc/{sample}_R{num}.html" %config['results_folder'],
-       #              zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
-       #          ),
-       #          num=[1,2], allow_missing=True
-       #      ),
-       #      sample=samples, allow_missing=True
-       #  ),
-       #  expand(expand(config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/merged.{read}.fastq.gz", zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), read=['R1', 'R2'], allow_missing=True),
-       #  expand(expand("%s/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/fastqc/merged_{num}.html" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), num=["R1","R2"], allow_missing=True),
-       #  expand(expand("%s/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/start_sorted.bam{index}" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), index=["",".bai"], allow_missing=True),
-       #  expand("%s/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/flagstat.txt" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
-       #  expand(["%s/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/alignment.dedup.bam" %config['results_folder'], 
-       #         "%s/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/duplicates.txt" %config['results_folder']], zip, bin_start=l_bin_start, bin_end=l_bin_end),
-       #  config['results_folder']+"/merged_downsampled_1_percent_sequencial/statistics_ds.tsv",
-        # ### ds_1_percent_position_based
-        # expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/start_sorted.bam", zip, bin_start=l_bin_start, bin_end=l_bin_end),
-        # expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/start_sorted.bam.bai", zip, bin_start=l_bin_start, bin_end=l_bin_end),
-        # expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/alignment.dedup.bam", zip, bin_start=l_bin_start, bin_end=l_bin_end),
-        # expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/duplicates.txt", zip, bin_start=l_bin_start, bin_end=l_bin_end),
-        # expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/flagstat.txt", zip, bin_start=l_bin_start, bin_end=l_bin_end),
-        # config['results_folder']+"/merged_raw_fastq/statistics_ds_1_pos.tsv",
-        # ### ds_1_percent_position_based_per_sample
-        # expand(expand("%s/{sample}/split_bam/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/start_sorted.bam" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), sample=samples),
-        # expand(expand("%s/{sample}/split_bam/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/start_sorted.bam.bai" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), sample=samples),
-        # expand(
-        #     expand(
-        #         expand(
-        #             "%s/{sample}/split_bam/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/{sample}_R{num}.fastq.gz" %config['results_folder'],
-        #             zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
-        #         ),
-        #         num=[1,2], allow_missing=True
-        #     ),
-        #     sample=samples, million_levels=million_fragment_downsampling, allow_missing=True
-        # ),
-        # expand(expand("%s/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/merged.R{num}.fastq.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), num=[1,2], allow_missing=True),
-        # expand(expand("%s/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/start_sorted.bam{index}" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), index=["",".bai"], allow_missing=True),
-        # expand("%s/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/flagstat.txt" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
-        # expand(["%s/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/alignment.dedup.bam" %config['results_folder'], 
-        #   "%s/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/duplicates.txt" %config['results_folder']],
-        #   zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True),
-        # config['results_folder']+"/ds_1_percent_position_based_per_sample/statistics_ds_1_pos_per_sample.tsv",
+        # expand(expand("%s/merged_raw_fastq/split_bam_merged/{levels}/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.g.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), levels=coverage_downsampling_levels),
+        # expand(expand("%s/merged_raw_fastq/split_bam_merged/{levels}/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.variants.selected.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), levels=coverage_downsampling_levels),
+        ###Single samples (same millions)
+        ###
+        expand("%s/{sample}/{sample}.trimmed.R{num}.fastq.gz" %config['results_folder'], sample=samples, num=[1,2]),
+        expand("%s/{sample}/{sample}_start_sorted.bam{index}" %config['results_folder'], sample=samples, index=["",".bai"]),
+        expand(
+           expand(
+               expand(
+                   "%s/{sample}/split_fastq/bam_to_fastq_{bin_start}-{bin_end}/{sample}_R{num}.fastq.gz" %config['results_folder'],
+                   zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
+               ),
+               num=[1,2], allow_missing=True
+           ),
+           sample=samples, allow_missing=True
+        ),
+        expand(
+            expand(
+                expand(
+                    "%s/{sample}/downsampled_fastq/{million_levels}/fastq_{bin_start}-{bin_end}/{sample}_R{num}.fastq.gz" %config['results_folder'],
+                    zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
+                ),
+                num=[1,2], allow_missing=True
+            ),
+            sample=samples, million_levels=million_fragment_downsampling, allow_missing=True
+        ),
+        expand(
+            expand(
+                "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/merged.R{num}.fastq.gz" %config['results_folder'],
+                zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
+            ),
+            num=[1,2], million_levels=million_fragment_downsampling, allow_missing=True
+        ),
+        expand(
+            expand(
+                "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/start_sorted.bam{index}" %config['results_folder'],
+                zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
+            ),
+            index=["",".bai"], million_levels=million_fragment_downsampling, allow_missing=True
+        ),
+        expand(
+            expand("%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/flagstat.txt" %config['results_folder'], 
+                zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
+            ), 
+            million_levels=million_fragment_downsampling, allow_missing=True),
+        expand(expand(["%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.bam" %config['results_folder'], 
+               "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/duplicates.txt" %config['results_folder']],
+               zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
+        expand(expand(["%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.bam" %config['results_folder'],
+               "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.bam.bai" %config['results_folder'],
+               "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/recal_data.table" %config['results_folder']],
+               zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
+        expand(expand(["%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.bam" %config['results_folder'],
+               "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.bam.bai" %config['results_folder']],
+               zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
+        expand(expand(["%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.hist.pdf" %config['results_folder'],
+               "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip.output" %config['results_folder']],
+               zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
+        expand(expand("%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/flagstat_recall.txt" %config['results_folder'],
+               zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
+        expand(expand(["%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/callable_table.txt" %config['results_folder'],
+               "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/callable_status.bed" %config['results_folder'],
+               "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/callable.bed" %config['results_folder'],
+               "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/callable_table_DP10.txt" %config['results_folder'],
+               "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/callable_status_DP10.bed" %config['results_folder'],
+               "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/callable_DP10.bed" %config['results_folder']],
+               zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
+        expand(expand(["%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_HsMetrics.txt" %config['results_folder'],
+               "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_PER_TARGET_COVERAGE.txt"  %config['results_folder'],
+               "%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip_PER_BASE_COVERAGE.txt" %config['results_folder']],
+               zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
+        expand(expand("%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/alignment.dedup.recal.clip-callable_DP10-stats.tsv" %config['results_folder'],
+               zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
+        expand(expand("%s/merged_downsampled_bam/{million_levels}/insert_{bin_start}-{bin_end}/unif_of_coverage.txt" %config['results_folder'],
+               zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), million_levels=million_fragment_downsampling, allow_missing=True),
+        expand([config['results_folder']+"/merged_downsampled_bam/{million_levels}/statistics_ds.tsv"], million_levels=million_fragment_downsampling),
+        # # expand("%s/merged_downsampled_bam/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.g.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
+        # # expand("%s/merged_downsampled_bam/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.variants.selected.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
+        ### ds_1_percent
+        ####
+        expand(
+            expand(
+                expand(
+                    "%s/{sample}/split_fastq/bam_to_fastq_{bin_start}-{bin_end}/fastqc/{sample}_R{num}.html" %config['results_folder'],
+                    zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
+                ),
+                num=[1,2], allow_missing=True
+            ),
+            sample=samples, allow_missing=True
+        ),
+        expand(expand(config['results_folder']+"/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/merged.{read}.fastq.gz", zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), read=['R1', 'R2'], allow_missing=True),
+        expand(expand("%s/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/fastqc/merged_{num}.html" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), num=["R1","R2"], allow_missing=True),
+        expand(expand("%s/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/start_sorted.bam{index}" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), index=["",".bai"], allow_missing=True),
+        expand("%s/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/flagstat.txt" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
+        expand(["%s/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/alignment.dedup.bam" %config['results_folder'], 
+               "%s/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/duplicates.txt" %config['results_folder']], zip, bin_start=l_bin_start, bin_end=l_bin_end),
+        config['results_folder']+"/merged_downsampled_1_percent_sequencial/statistics_ds.tsv",
+        ### ds_1_percent_position_based
+        expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/start_sorted.bam", zip, bin_start=l_bin_start, bin_end=l_bin_end),
+        expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/start_sorted.bam.bai", zip, bin_start=l_bin_start, bin_end=l_bin_end),
+        expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/alignment.dedup.bam", zip, bin_start=l_bin_start, bin_end=l_bin_end),
+        expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/duplicates.txt", zip, bin_start=l_bin_start, bin_end=l_bin_end),
+        expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/flagstat.txt", zip, bin_start=l_bin_start, bin_end=l_bin_end),
+        config['results_folder']+"/merged_raw_fastq/statistics_ds_1_pos.tsv",
+        ### ds_1_percent_position_based_per_sample
+        expand(expand("%s/{sample}/split_bam/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/start_sorted.bam" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), sample=samples),
+        expand(expand("%s/{sample}/split_bam/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/start_sorted.bam.bai" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), sample=samples),
+        expand(
+            expand(
+                expand(
+                    "%s/{sample}/split_bam/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/{sample}_R{num}.fastq.gz" %config['results_folder'],
+                    zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True
+                ),
+                num=[1,2], allow_missing=True
+            ),
+            sample=samples, million_levels=million_fragment_downsampling, allow_missing=True
+        ),
+        expand(expand("%s/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/merged.R{num}.fastq.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), num=[1,2], allow_missing=True),
+        expand(expand("%s/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/start_sorted.bam{index}" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), index=["",".bai"], allow_missing=True),
+        expand("%s/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/flagstat.txt" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
+        expand(["%s/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/alignment.dedup.bam" %config['results_folder'], 
+          "%s/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/duplicates.txt" %config['results_folder']],
+          zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True),
+        config['results_folder']+"/ds_1_percent_position_based_per_sample/statistics_ds_1_pos_per_sample.tsv",
 
 include: "rules/fastqc/fastqc_wrapper.smk",
 # Merged fastqs (same coverage)
@@ -262,48 +262,48 @@ include: "rules/stats/create_statistics_bin_raw_fastq.smk",
 # include: "rules/snv_indel_calling/callHC_bin_raw_fastq.smk",
 # include: "rules/snv_indel_calling/filterHC_bin_raw_fastq.smk",
 
-# #Single samples (same millions)
-# include: "rules/trimming/fastp_downsampling_from_fastq.smk",
-# include: "rules/mapping/mapping_downsampling_from_fastq.smk",
-# include: "rules/split_bin/split_downsampling_from_fastq.smk",
-# include: "rules/downsampling/downsampling_from_fastq.smk",
-# include: "rules/downsampling/merge_downsampling_from_fastq.smk",
-# include: "rules/mapping/mapping_downsampled_downsampling_from_fastq.smk",
-# include: "rules/mapping/flagstat_downsampling_from_fastq.smk",
-# include: "rules/mapping/markduplicates_downsampling_from_fastq.smk"
-# include: "rules/mapping/baserecalibrator_downsampling_from_fastq.smk"
-# include: "rules/mapping/clip_downsampling_from_fastq.smk",
-# include: "rules/stats/collectinsertsizemetrics_downsampling_from_fastq.smk",
-# include: "rules/mapping/flagstat_recall_downsampling_from_fastq.smk",
-# include: "rules/stats/callable_loci_downsampling_from_fastq.smk"
-# include: "rules/stats/collecthsmetrics_downsampling_from_fastq.smk"
-# include: "rules/stats/coverage_downsampling_from_fastq.smk",
-# include: "rules/stats/unif_coverage_PCT_downsampling_from_fastq.smk",
-# include: "rules/stats/create_statistics_downsampling_from_fastq.smk",
-# ## include: "rules/snv_indel_calling/callHC_downsampling_from_fastq.smk",
-# ## include: "rules/snv_indel_calling/filterHC_downsampling_from_fastq.smk",
+#Single samples (same millions)
+include: "rules/trimming/fastp_downsampling_from_fastq.smk",
+include: "rules/mapping/mapping_downsampling_from_fastq.smk",
+include: "rules/split_bin/split_downsampling_from_fastq.smk",
+include: "rules/downsampling/downsampling_from_fastq.smk",
+include: "rules/downsampling/merge_downsampling_from_fastq.smk",
+include: "rules/mapping/mapping_downsampled_downsampling_from_fastq.smk",
+include: "rules/mapping/flagstat_downsampling_from_fastq.smk",
+include: "rules/mapping/markduplicates_downsampling_from_fastq.smk"
+include: "rules/mapping/baserecalibrator_downsampling_from_fastq.smk"
+include: "rules/mapping/clip_downsampling_from_fastq.smk",
+include: "rules/stats/collectinsertsizemetrics_downsampling_from_fastq.smk",
+include: "rules/mapping/flagstat_recall_downsampling_from_fastq.smk",
+include: "rules/stats/callable_loci_downsampling_from_fastq.smk"
+include: "rules/stats/collecthsmetrics_downsampling_from_fastq.smk"
+include: "rules/stats/coverage_downsampling_from_fastq.smk",
+include: "rules/stats/unif_coverage_PCT_downsampling_from_fastq.smk",
+include: "rules/stats/create_statistics_downsampling_from_fastq.smk",
+## include: "rules/snv_indel_calling/callHC_downsampling_from_fastq.smk",
+## include: "rules/snv_indel_calling/filterHC_downsampling_from_fastq.smk",
 
 
-# # ##Single samples (1 percent sequential)
-# include: "rules/fastqc/fastqc_wrapper_1_percent.smk",
-# include: "rules/downsampling/downsampling_1_percent.smk",
-# include: "rules/fastqc/fastqc_wrapper_merged_1_percent.smk",
-# include: "rules/mapping/mapping_1_percent.smk",
-# include: "rules/mapping/flagstat_1_percent.smk",
-# include: "rules/mapping/markduplicates_1_percent.smk",
-# include: "rules/stats/create_statistics_1_percent.smk"
+# ##Single samples (1 percent sequential)
+include: "rules/fastqc/fastqc_wrapper_1_percent.smk",
+include: "rules/downsampling/downsampling_1_percent.smk",
+include: "rules/fastqc/fastqc_wrapper_merged_1_percent.smk",
+include: "rules/mapping/mapping_1_percent.smk",
+include: "rules/mapping/flagstat_1_percent.smk",
+include: "rules/mapping/markduplicates_1_percent.smk",
+include: "rules/stats/create_statistics_1_percent.smk"
 
 
-# # # Merged fastqs downsampling 1% position based on merged bam file (PositionBasedDownsampleSam -f 0.01)
-# include: "rules/positionbaseddownsampling/downsampling_1_position_based.smk",
-# include: "rules/positionbaseddownsampling/markduplicates_1_position_based.smk",
-# include: "rules/positionbaseddownsampling/flagstat_1_position_based.smk",
-# include: "rules/positionbaseddownsampling/create_statistics_1_position_based.smk"
+# # Merged fastqs downsampling 1% position based on merged bam file (PositionBasedDownsampleSam -f 0.01)
+include: "rules/positionbaseddownsampling/downsampling_1_position_based.smk",
+include: "rules/positionbaseddownsampling/markduplicates_1_position_based.smk",
+include: "rules/positionbaseddownsampling/flagstat_1_position_based.smk",
+include: "rules/positionbaseddownsampling/create_statistics_1_position_based.smk"
 
-# # # Merged fastqs downsampling 1% position based per sample (PositionBasedDownsampleSam -f 0.01)
-# include: "rules/positionbaseddownsampling_per_sample/downsampling_1_position_based_per_sample.smk",
-# include: "rules/positionbaseddownsampling_per_sample/merge_downsampling_1_position_based_per_sample.smk",
-# include: "rules/positionbaseddownsampling_per_sample/mapping_1_position_based_per_sample.smk",
-# include: "rules/positionbaseddownsampling_per_sample/flagstat_1_position_based_per_sample.smk",
-# include: "rules/positionbaseddownsampling_per_sample/markduplicates_1_position_based_per_sample.smk",
-# include: "rules/positionbaseddownsampling_per_sample/create_statistics_1_position_based_per_sample.smk",
+# # Merged fastqs downsampling 1% position based per sample (PositionBasedDownsampleSam -f 0.01)
+include: "rules/positionbaseddownsampling_per_sample/downsampling_1_position_based_per_sample.smk",
+include: "rules/positionbaseddownsampling_per_sample/merge_downsampling_1_position_based_per_sample.smk",
+include: "rules/positionbaseddownsampling_per_sample/mapping_1_position_based_per_sample.smk",
+include: "rules/positionbaseddownsampling_per_sample/flagstat_1_position_based_per_sample.smk",
+include: "rules/positionbaseddownsampling_per_sample/markduplicates_1_position_based_per_sample.smk",
+include: "rules/positionbaseddownsampling_per_sample/create_statistics_1_position_based_per_sample.smk",
