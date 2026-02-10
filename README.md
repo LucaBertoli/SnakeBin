@@ -1,4 +1,5 @@
 # SnakeBin
+Repository developed as part of my PhD thesis. 
 SnakeBin is a Snakemake pipeline for insert-size-resolved WES analysis, stratifying reads into normalized Insert Size Bins (ISBs) to quantify fragment length effects on coverage efficiency, mappability, genotypability, and variant calling clinical NGS.
 Starting from raw fastq files, it aligns them against the reference genome and extracts per-read insert sizes (TLEN), bins fragments (e.g., 50bp intervals), and computes ISB-stratified metrics including depth/bredth/uniformity of coverage, on/near/off-target fractions, mapping quality histograms, duplication rates, callable bases (as defined by GATK CallableLoci).
 - Coverage-Based Downsampling 
@@ -82,3 +83,4 @@ fastqc, fastp, BWA-MEM2, samtools, picard, bamutil, bedtools, GATK v3.8, GATK (l
 
 👤 Author \
 Email: lucabertoli10@yahoo.it
+
