@@ -7,10 +7,10 @@ SnakeBin is a Snakemake pipeline for insert-size-resolved Whole Exome Sequencing
 Starting from raw fastq files, it aligns them against the reference genome and extracts per-read insert sizes (TLEN), bins fragments (e.g., 50bp intervals), and computes ISB-stratified metrics including depth/bredth/uniformity of coverage, on/near/off-target fractions, mapping quality histograms, duplication rates, callable bases (as defined by GATK CallableLoci).
 
 - Coverage-Based Downsampling 
-  - Merges sample's fastq, trims and aligns reads, generates ISBs, subsamples reads per ISB to fixed target depth across bins (e.g., 50x average coverage, eliminating depth confounding effects), postprocesses BAMs, computes relevant metrics and optional variant calling.
+  - Merges sample's fastq, trims and aligns reads, generates ISBs, subsamples reads per ISB to fixed target depth across bins (e.g., 60x average coverage), postprocesses BAMs (deduplication base-recalibration, clipping), computes relevant metrics and optional variant calling.
 
 - Fragment-Based Downsampling 
-  - Aligns samples, generates sample-specific ISBs, converts BAMs to FASTQs, sequentially subsamples ISBs by selecting the first n° fragments (ensuring an equal contribution of each sample), merges sample-specific ISBs to cohort-specific ISBs, realigns the ISBs, postprocesses BAMs, computes relevant metrics and optional variant calling.
+  - Aligns samples, generates sample-specific ISBs, converts BAMs to FASTQs, sequentially subsamples ISBs by selecting the first n° fragments (ensuring an equal contribution of each sample), merges sample-specific ISBs to cohort-specific ISBs, realigns the ISBs, postprocesses BAMs (deduplication, base-recalibration, clipping), computes relevant metrics and optional variant calling.
 ​
 
 ---
@@ -87,6 +87,7 @@ fastqc, fastp, BWA-MEM2, samtools, picard, bamutil, bedtools, GATK v3.8, GATK (l
 
 👤 Author \
 Email: lucabertoli10@yahoo.it
+
 
 
 
