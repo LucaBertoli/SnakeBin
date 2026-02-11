@@ -1,3 +1,4 @@
+<img width="2000" height="758" alt="immagine" src="https://github.com/user-attachments/assets/a98b03c8-09f3-42b3-b343-6bfae4947a01" />
 # SnakeBin
 Repository developed as part of my PhD thesis. 
 SnakeBin is a Snakemake pipeline for insert-size-resolved WES analysis, stratifying reads into normalized Insert Size Bins (ISBs) to quantify fragment length effects on coverage efficiency, mappability, genotypability, and variant calling clinical NGS.
@@ -6,10 +7,6 @@ Starting from raw fastq files, it aligns them against the reference genome and e
   - Merges sample's fastq, trims and aligns reads, generates ISBs, subsamples reads per ISB to fixed target depth across bins (e.g., 50x average coverage, eliminating depth confounding effects), postprocesses BAMs, computes relevant metrics and optional variant calling.
 - Fragment-Based Downsampling 
   - Aligns samples, generates sample-specific ISBs, converts BAMs to FASTQs, sequentially subsamples ISBs by selecting the first n° fragments (ensuring an equal contribution of each sample), merges sample-specific ISBs to cohort-specific ISBs, realigns the ISBs, postprocesses BAMs, computes relevant metrics and optional variant calling.
-​
-<img width="2000" height="758" alt="immagine" src="https://github.com/user-attachments/assets/a98b03c8-09f3-42b3-b343-6bfae4947a01" />
-
-
 ​
 
 ---
@@ -86,6 +83,7 @@ fastqc, fastp, BWA-MEM2, samtools, picard, bamutil, bedtools, GATK v3.8, GATK (l
 
 👤 Author \
 Email: lucabertoli10@yahoo.it
+
 
 
 
