@@ -7,6 +7,7 @@ Starting from raw fastq files, it aligns them against the reference genome and e
 - Fragment-Based Downsampling 
   - Aligns samples, generates sample-specific ISBs, converts BAMs to FASTQs, sequentially subsamples ISBs by selecting the first n° fragments (ensuring an equal contribution of each sample), merges sample-specific ISBs to cohort-specific ISBs, realigns the ISBs, postprocesses BAMs, computes relevant metrics and optional variant calling.
 ​
+<img width="2000" height="773" alt="immagine" src="https://github.com/user-attachments/assets/0effea62-26cb-4e3e-905a-b3f4dc63d898" />
 ​
 
 ---
@@ -83,4 +84,5 @@ fastqc, fastp, BWA-MEM2, samtools, picard, bamutil, bedtools, GATK v3.8, GATK (l
 
 👤 Author \
 Email: lucabertoli10@yahoo.it
+
 
