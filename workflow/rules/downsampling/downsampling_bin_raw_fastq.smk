@@ -1,4 +1,6 @@
 # Snakefile
+#in the coverage-based downsampling workflor, downsamples each insert size bin of the merged dataset to the same mapped coverage.
+
 import gzip
 import os
 import subprocess

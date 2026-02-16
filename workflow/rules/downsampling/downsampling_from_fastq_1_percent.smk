@@ -1,4 +1,6 @@
 # Snakefile
+#not used in the workflow
+#in the fragment-based downsampling workflow, downsamples each insert size bin of each sample to 1% of the original number of fragments, then merges the downsampled fastq files across samples for each bin.
 
 # Fragments per samples for downsampling
 million_fragment_downsampling = config['million_fragment_downsampling']

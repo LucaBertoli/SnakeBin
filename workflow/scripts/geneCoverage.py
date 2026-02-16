@@ -11,76 +11,76 @@ NOTE:
 The destination file will be named: callable_n-stats.tsv
 """
 
-## deifnizione funzione di help
+## definition of the help function
 def print_help_and_exit():
     print(HELP, file=sys.stderr)
     sys.exit()
 
-#definizione funzione per aggiunta di una regione
+#definition of the function to add a region to the ss variable
 def add_region(ss, chr_name, gene_name, region, length, coverage, thresholds, index, update_length):
-    #se il nome del cromosoma non è presente in ss, crealo
+    #if the chromosome name is not present in ss, create it
     if chr_name not in ss:
         ss[chr_name] = {}
-    #se il nome del gene non è presente in ss[chr_name], crealo
+    #if the gene name is not present in ss[chr_name], create it
     if gene_name not in ss[chr_name]:
         ss[chr_name][gene_name] = {}
-    #se la regione non è presente in ss, inizializzala inserendo 0 in tutti i campi (7 campi + un campo per ogni file callable in input)
+    #if the region is not present in ss, initialize it by inserting 0 in all fields (7 fields + one field for each callable file in input)
     if region not in ss[chr_name][gene_name]:
         ss[chr_name][gene_name][region] = [0] * (7 + len(callable))
 
-    #aggiorna i primi due elementi della lista sommando la lunghezza e la copertura della regione
+    #update the first two elements of the list by adding the length and coverage of the region
     if update_length:
         ss[chr_name][gene_name][region][0] += length
         ss[chr_name][gene_name][region][1] += coverage * length
-
-    #aggiorna il numero di basi con almeno un certo coverage (1,5,10,20,30) o basi genotipizzate, aggiungendo al contatore la lunghezza della regione se il suo coverage è maggiore o uguale alla soglia. Per aggiornare la genotipizzabilità, la soglia è 1 e la copertura sarà 1 se è callable o 0 se non è callable
+    #update the number of bases with at least a certain coverage (1,5,10,20,30) or genotyped bases, adding to the counter the length of the region if its coverage is greater than or equal to the threshold. To update genotypability, the threshold is 1 and the coverage will be 1 if it is callable or 0 if it is not callable
     for i, threshold in enumerate(thresholds):
         if coverage >= threshold:
             ss[chr_name][gene_name][region][index + i] += length
 
-#definizione per la stampa della regione nel file in output
+#definition of the function to print the region in the output file
 def print_region(ss, chr_name, gene_name, coord):
-    #genera il nome delle regioni, che gene o gene::posizione
+    #generate the name of the regions, which is gene or gene::position
     key = gene_name
     if gene_name != coord:
         coord_to_add= str(int(coord) - 10**10)
         key += f"::{coord_to_add}"
 
     region_data = ss[chr_name][gene_name][coord]
-    #calcola la percentuale della regione coperta ad una serta soglia
+
+    #compute the percentage of the region covered at a certain threshold
     row = [
         chr_name, key, region_data[0],
         f"{region_data[1] / region_data[0]:.2f}",
         *(f"{100 * region_data[i] / region_data[0]:.2f}" for i in range(2, 7))
     ]
 
-    #calcola la percentuale della regione genotipizzata per ogni callable
+    #computa the percentage of the region genotyped for each callable
     for i in range(len(callable)):
         row.append(f"{100 * region_data[7 + i] / region_data[0]:.2f}")
 
-    #mette tutti i dati della regione in una riga separata da tab
+    #return the row as a string separated by tab
     return "\t".join(map(str, row))
 
-#inizio main script
+#MAIN
 if len(sys.argv) < 3:
     print_help_and_exit()
 
-#definizione nome output file
+#definition of the output file
 dest = sys.argv[-1].replace(".bed", "-stats.tsv")
 
-#se il file è gia presente e non è vuoto, non fare nulla
+#if the file is already present and not empty, do nothing
 if os.path.isfile(dest) and os.path.getsize(dest) > 0:
     print("Nothing to do", file=sys.stderr)
     sys.exit()
 else:
     print(f"Producing stats file: {dest}", file=sys.stderr)
 
-#definizione variabili
+#variable definition
 depth = ""
 callable = []
 ss = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
 
-#lettura dei file di input, il primo file sarà il file di copertura, il secondo e terzo saranno callable
+#input file reading, the first file will be the coverage file, the second and third will be callable files
 for f in sys.argv[1:]:
     if os.path.isfile(f):
         if not depth:
@@ -88,19 +88,19 @@ for f in sys.argv[1:]:
         else:
             callable.append(f)
 
-#apertura del file di copertura (bedtools coverage del BAM sul design) e lettura delle righe
+#opening the coverage file (bedtools coverage of the BAM on the design) and reading the lines
 with gzip.open(depth, 'rt') as file:
     for line in file:
         if line.startswith("all") or line.startswith("genome"):
             continue
 
         fields = line.strip().split("\t")
-        #esempio fields = ['chr1', '1693320', '1693482', 'NADK', '84', '1', '162', '0.0061728']
+        #example fields = ['chr1', '1693320', '1693482', 'NADK', '84', '1', '162', '0.0061728']
         add_region(ss, fields[0], fields[3], str(int(fields[1]) + 10**10), int(fields[5]), int(fields[4]), [1, 5, 10, 20, 30], 2, 1)
         add_region(ss, fields[0], fields[3], fields[3], int(fields[5]), int(fields[4]), [1, 5, 10, 20, 30], 2, 1)
         add_region(ss, 'all', 'all', 'all', int(fields[5]), int(fields[4]), [1, 5, 10, 20, 30], 2, 1)
 
-#aggiorna le genotipizzabilità delle regioni usando i le coperture dei callable (generati da bedtools coverage di callable.bed e callable_DP10.bed sul design) senza aggiornare le lunghezze e coverage delle regioni
+#updates the genotipability of the regions using the coverage of the callable (generated by bedtools coverage of callable.bed and callable_DP10.bed on the design) without updating the lengths and coverage of the regions
 for i, c_file in enumerate(callable):
     with open(c_file, 'r') as file:
         for line in file:
@@ -116,6 +116,7 @@ for i, c_file in enumerate(callable):
             add_region(ss, 'all', 'all', 'all', int(fields[5]), int(fields[4]), [1], 7 + i, 0)
 
 #apertura e scrittura del file tsv in output
+#opens and writes the output tsv file
 with open(dest, 'w') as out:
     out.write(print_region(ss, 'all', 'all', 'all') + "\n")
 
@@ -134,7 +135,7 @@ with open(dest, 'w') as out:
                 out.write(print_region(ss, chr_name, gene_name, pos) + "\n")
 
 
-## ss è un dizionario di un dizionario di una lista, a differenza di un dizionario normale se una key non esiste essa viene creata automaticamente. La struttura della variabile è:
+## ss is a nested dictionary that will contain the coverage and genotypability information for each region of each gene in each chromosome. The structure of ss is as follows:
 ## ss = {
 ##     'chr1': {
 ##         'geneA': {

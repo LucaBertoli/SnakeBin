@@ -1,5 +1,5 @@
 # Snakefile
-
+#in the fragment-based downsampling workflor, downsamples each insert size bin of each sample to a specific fragment number, ensuring that the final downsampled dataset contains a consistent number of fragments across all samples
 
 rule extract_reads_from_fastq:
     input:

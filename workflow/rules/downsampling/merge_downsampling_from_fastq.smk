@@ -1,5 +1,5 @@
 # Snakefile
-
+#in the fragment-based downsampling workflor, merging of the fastq files, one per sample per bin per fragment number.
 
 rule merge_reads_from_fastq:
     input:

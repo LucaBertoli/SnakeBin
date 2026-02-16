@@ -4,18 +4,18 @@ import pandas as pd
 import numpy as np
 configfile: "config/config.yaml"
 
-#Lettura del file CSV
+#sample's csv file loading
 df = pd.read_csv(config['sample_csv'], header=None)
 
-#Lista campioni
+#generation of the sample list
 samples = df.stack().tolist()
 
-#Target bed sui quali calcolare le statistiche
+#definition of the target files for statistics computation
 targets = list(config["target_regions"].keys())
 coverage_downsampling_levels = list(config["coverage_downsampling_levels"].keys())
 million_fragment_downsampling = list(config["million_fragment_downsampling"].keys())
 
-#Bin
+#definition of the insert size bins
 insert_range_start=config['insert_range_start']
 insert_range_end=config['insert_range_end']
 insert_bin_legth=config['insert_bin_legth']
@@ -29,7 +29,7 @@ def bin_definition(insert_range_start, insert_range_end, insert_bin_legth):
      return l_bin_start, l_bin_end
 l_bin_start, l_bin_end = bin_definition(insert_range_start, insert_range_end, insert_bin_legth)
 
-#Fragments per samples for downsampling
+#definition of the number of fragments to ose for the fragment-based downsampling, based on the total number of fragments to use for each level and the number of samples
 million_fragment_downsampling = config['million_fragment_downsampling'] 
 
 def num_farg(million_fragment_downsampling, samples):
@@ -43,10 +43,10 @@ print("nr frammenti downsampling sequenziale a campione: ", num_fragments_per_sa
 
 rule all:
     input:
+        ###Coverage-based downsampling workflow (same coverage)
+        ###
         expand(config['results_folder'] + "/{sample}/fastqc/{sample}_{read}.html", sample=samples, read=['R1', 'R2']),
         expand(config['results_folder'] + "/{sample}/fastqc/{sample}_{read}_fastqc.zip", sample=samples, read=['R1', 'R2']),
-        ##Merged fastqs (same coverage)
-        ##
         expand("%s/merged_raw_fastq/merged.R{num}.fastq.gz" %config['results_folder'], num=[1,2]),
         expand("%s/merged_raw_fastq/trimmed.R{num}.fastq.gz" %config['results_folder'], num=[1,2]),
         expand("%s/merged_raw_fastq/start_sorted.bam{index}" %config['results_folder'], index=["",".bai"]),
@@ -109,7 +109,7 @@ rule all:
         [config['results_folder']+"/merged_raw_fastq/statistics.tsv"],
         # expand(expand("%s/merged_raw_fastq/split_bam_merged/{levels}/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.g.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), levels=coverage_downsampling_levels),
         # expand(expand("%s/merged_raw_fastq/split_bam_merged/{levels}/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.variants.selected.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), levels=coverage_downsampling_levels),
-        ###Single samples (same millions)
+        ###Fragment-based downsampling workflow (same millions)
         ###
         expand("%s/{sample}/{sample}.trimmed.R{num}.fastq.gz" %config['results_folder'], sample=samples, num=[1,2]),
         expand("%s/{sample}/{sample}_start_sorted.bam{index}" %config['results_folder'], sample=samples, index=["",".bai"]),
@@ -185,8 +185,8 @@ rule all:
         expand([config['results_folder']+"/merged_downsampled_bam/{million_levels}/statistics_ds.tsv"], million_levels=million_fragment_downsampling),
         # # expand("%s/merged_downsampled_bam/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.g.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
         # # expand("%s/merged_downsampled_bam/insert_{bin_start}-{bin_end}/insert_{bin_start}-{bin_end}.variants.selected.vcf.gz" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end),
-        ### ds_1_percent
-        ####
+        ### fragment-based downsampling workflow (1% fragments), used to estimate sequencing duplicates based on the duplicates observed on the first N sequenced fragments
+        ###
         expand(
             expand(
                 expand(
@@ -204,14 +204,14 @@ rule all:
         expand(["%s/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/alignment.dedup.bam" %config['results_folder'], 
                "%s/merged_downsampled_1_percent_sequencial/insert_{bin_start}-{bin_end}/duplicates.txt" %config['results_folder']], zip, bin_start=l_bin_start, bin_end=l_bin_end),
         config['results_folder']+"/merged_downsampled_1_percent_sequencial/statistics_ds.tsv",
-        ### ds_1_percent_position_based
+        ### position-based fragment-based downsampling workflow (1% fragments), used to estimate sequencing duplicates based on the duplicates observed in nearby fragments in the flowcell
         expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/start_sorted.bam", zip, bin_start=l_bin_start, bin_end=l_bin_end),
         expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/start_sorted.bam.bai", zip, bin_start=l_bin_start, bin_end=l_bin_end),
         expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/alignment.dedup.bam", zip, bin_start=l_bin_start, bin_end=l_bin_end),
         expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/duplicates.txt", zip, bin_start=l_bin_start, bin_end=l_bin_end),
         expand(config['results_folder']+"/merged_raw_fastq/split_bam_merged/ds_1_percent_position_based/insert_{bin_start}-{bin_end}/flagstat.txt", zip, bin_start=l_bin_start, bin_end=l_bin_end),
         config['results_folder']+"/merged_raw_fastq/statistics_ds_1_pos.tsv",
-        ### ds_1_percent_position_based_per_sample
+        ### position-based fragment-based downsampling workflow (1% fragments), used to estimate sequencing duplicates based on the duplicates observed in nearby fragments in the flowcell, performed at sample level
         expand(expand("%s/{sample}/split_bam/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/start_sorted.bam" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), sample=samples),
         expand(expand("%s/{sample}/split_bam/ds_1_percent_position_based_per_sample/insert_{bin_start}-{bin_end}/start_sorted.bam.bai" %config['results_folder'], zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True), sample=samples),
         expand(
@@ -232,8 +232,8 @@ rule all:
           zip, bin_start=l_bin_start, bin_end=l_bin_end, allow_missing=True),
         config['results_folder']+"/ds_1_percent_position_based_per_sample/statistics_ds_1_pos_per_sample.tsv",
 
+## Coverage-based downsampling workflow (same coverage)
 include: "rules/fastqc/fastqc_wrapper.smk",
-# Merged fastqs (same coverage)
 include: "rules/merging/merge_raw_fastq.smk",
 include: "rules/trimming/fastp_merged_raw_fastq.smk",
 include: "rules/mapping/mapping_merged_raw_fastq.smk",
@@ -242,7 +242,7 @@ include: "rules/split_bin/split_merged_bam.smk",
 include: "rules/mapping/markduplicates_bin_raw_fastq.smk",
 include: "rules/mapping/baserecalibrator_bin_raw_fastq.smk",
 include: "rules/mapping/clip_bin_raw_fastq.smk",
-include: "rules/stats/histogram_MQ_bin_raw_fastq.smk", #mattia per istogramma mapping quality
+include: "rules/stats/histogram_MQ_bin_raw_fastq.smk",
 include: "rules/mapping/flagstat_merged_raw_fastq_final.smk",
 include: "rules/mapping/flagstat_recall_bin_raw_fastq.smk",
 include: "rules/stats/callable_loci_bin_raw_fastq.smk",
@@ -262,7 +262,7 @@ include: "rules/stats/create_statistics_bin_raw_fastq.smk",
 # include: "rules/snv_indel_calling/callHC_bin_raw_fastq.smk",
 # include: "rules/snv_indel_calling/filterHC_bin_raw_fastq.smk",
 
-#Single samples (same millions)
+## Fragment-based downsampling workflow (same millions)
 include: "rules/trimming/fastp_downsampling_from_fastq.smk",
 include: "rules/mapping/mapping_downsampling_from_fastq.smk",
 include: "rules/split_bin/split_downsampling_from_fastq.smk",
@@ -280,11 +280,11 @@ include: "rules/stats/collecthsmetrics_downsampling_from_fastq.smk"
 include: "rules/stats/coverage_downsampling_from_fastq.smk",
 include: "rules/stats/unif_coverage_PCT_downsampling_from_fastq.smk",
 include: "rules/stats/create_statistics_downsampling_from_fastq.smk",
-## include: "rules/snv_indel_calling/callHC_downsampling_from_fastq.smk",
-## include: "rules/snv_indel_calling/filterHC_downsampling_from_fastq.smk",
+# include: "rules/snv_indel_calling/callHC_downsampling_from_fastq.smk",
+# include: "rules/snv_indel_calling/filterHC_downsampling_from_fastq.smk",
 
 
-# ##Single samples (1 percent sequential)
+##fragment-based downsampling workflow (1% fragments)
 include: "rules/fastqc/fastqc_wrapper_1_percent.smk",
 include: "rules/downsampling/downsampling_1_percent.smk",
 include: "rules/fastqc/fastqc_wrapper_merged_1_percent.smk",
@@ -294,13 +294,15 @@ include: "rules/mapping/markduplicates_1_percent.smk",
 include: "rules/stats/create_statistics_1_percent.smk"
 
 
-# # Merged fastqs downsampling 1% position based on merged bam file (PositionBasedDownsampleSam -f 0.01)
+## position-based fragment-based downsampling workflow (1% fragments) 
+# Merged fastqs downsampling 1% position based on merged bam file (PositionBasedDownsampleSam -f 0.01)
 include: "rules/positionbaseddownsampling/downsampling_1_position_based.smk",
 include: "rules/positionbaseddownsampling/markduplicates_1_position_based.smk",
 include: "rules/positionbaseddownsampling/flagstat_1_position_based.smk",
 include: "rules/positionbaseddownsampling/create_statistics_1_position_based.smk"
 
-# # Merged fastqs downsampling 1% position based per sample (PositionBasedDownsampleSam -f 0.01)
+## position-based fragment-based downsampling workflow (1% fragments)
+# Merged fastqs downsampling 1% position based per sample (PositionBasedDownsampleSam -f 0.01)
 include: "rules/positionbaseddownsampling_per_sample/downsampling_1_position_based_per_sample.smk",
 include: "rules/positionbaseddownsampling_per_sample/merge_downsampling_1_position_based_per_sample.smk",
 include: "rules/positionbaseddownsampling_per_sample/mapping_1_position_based_per_sample.smk",

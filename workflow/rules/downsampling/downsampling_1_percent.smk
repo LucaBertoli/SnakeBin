@@ -1,5 +1,5 @@
 # Snakefile
-
+#in the fragment-based downsampling workflow, downsamples each insert size bin of each sample to 1% of the original number of fragments, then merges the downsampled fastq files across samples for each bin.
 
 rule extract_reads_from_fastq_ds_1_perc:
     input:
