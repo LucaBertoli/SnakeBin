@@ -233,6 +233,7 @@ rule all:
         config['results_folder']+"/ds_1_percent_position_based_per_sample/statistics_ds_1_pos_per_sample.tsv",
 
 ## Coverage-based downsampling workflow (same coverage)
+#generation of equally covered insert size bins.
 include: "rules/fastqc/fastqc_wrapper.smk",
 include: "rules/merging/merge_raw_fastq.smk",
 include: "rules/trimming/fastp_merged_raw_fastq.smk",
@@ -263,6 +264,7 @@ include: "rules/stats/create_statistics_bin_raw_fastq.smk",
 # include: "rules/snv_indel_calling/filterHC_bin_raw_fastq.smk",
 
 ## Fragment-based downsampling workflow (same millions)
+#generation of insert size bing using the same number of starting fragments
 include: "rules/trimming/fastp_downsampling_from_fastq.smk",
 include: "rules/mapping/mapping_downsampling_from_fastq.smk",
 include: "rules/split_bin/split_downsampling_from_fastq.smk",
@@ -285,6 +287,7 @@ include: "rules/stats/create_statistics_downsampling_from_fastq.smk",
 
 
 ##fragment-based downsampling workflow (1% fragments)
+#generation of insert size bing using the first 1% of starting fragments (sequnentially extracted from the fastq files)
 include: "rules/fastqc/fastqc_wrapper_1_percent.smk",
 include: "rules/downsampling/downsampling_1_percent.smk",
 include: "rules/fastqc/fastqc_wrapper_merged_1_percent.smk",
